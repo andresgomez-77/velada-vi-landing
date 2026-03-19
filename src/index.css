@@ -1,0 +1,255 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* ── Colors ── */
+  --color-velada-black: #05050a;
+  --color-velada-dark: #0b0b12;
+  --color-velada-card: #10101a;
+  --color-velada-gold: #c8992a;
+  --color-velada-gold-light: #e8b840;
+  --color-velada-gold-bright: #f5d060;
+  --color-velada-bronze: #a0521a;
+  --color-velada-bronze-light: #c07030;
+
+  /* ── Fonts ── */
+  --font-display: "Bebas Neue", Impact, sans-serif;
+  --font-heading: "Oswald", Impact, sans-serif;
+  --font-ui: "Rajdhani", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* ── Shadows ── */
+  --shadow-gold: 0 0 30px rgba(200, 153, 42, 0.5);
+  --shadow-gold-lg: 0 0 60px rgba(200, 153, 42, 0.7);
+  --shadow-gold-sm: 0 0 15px rgba(200, 153, 42, 0.3);
+
+  /* ── Animations ── */
+  --animate-pulse-dot: pulse-dot 1.5s ease-in-out infinite;
+  --animate-spin-slow: spin 4s linear infinite;
+  --animate-border-glow: border-glow 2.5s ease-in-out infinite;
+  --animate-float: float 3s ease-in-out infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes border-glow {
+  0%,
+  100% {
+    border-color: rgba(200, 153, 42, 0.3);
+  }
+  50% {
+    border-color: rgba(200, 153, 42, 0.7);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes countdown-in {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes countdown-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    transform: translateY(20px);
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+/* ── Base reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-velada-black);
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-velada-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-velada-gold),
+    var(--color-velada-bronze)
+  );
+  border-radius: 3px;
+}
+
+/* ── Text gradients ── */
+.text-gold-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-velada-gold-bright) 0%,
+    var(--color-velada-gold) 50%,
+    var(--color-velada-bronze) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Background grid ── */
+.bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(200, 153, 42, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 153, 42, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Glow helpers ── */
+.gold-glow {
+  box-shadow: 0 0 30px rgba(200, 153, 42, 0.5);
+}
+.gold-glow-sm {
+  box-shadow: 0 0 15px rgba(200, 153, 42, 0.3);
+}
+
+/* ── Section divider ── */
+.velada-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200, 153, 42, 0.5) 50%,
+    transparent
+  );
+}
+
+/* ── Section badge ── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  border: 1px solid rgba(200, 153, 42, 0.25);
+  background: rgba(200, 153, 42, 0.06);
+  color: var(--color-velada-gold-light);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+/* ── Font utility classes ── */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+.font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+}
+.font-ui {
+  font-family: var(--font-ui);
+}
+
+/* ── Fight card bottom-line hover ── */
+.fight-card-line {
+  position: relative;
+}
+.fight-card-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-velada-gold),
+    var(--color-velada-bronze)
+  );
+  transition: width 0.4s ease;
+}
+.fight-card-line:hover::after {
+  width: 100%;
+}
+
+/* ── Accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--color-velada-gold);
+  outline-offset: 2px;
+}
+::selection {
+  background: rgba(200, 153, 42, 0.3);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
