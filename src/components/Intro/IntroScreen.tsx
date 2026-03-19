@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import heroImage from "../../assets/img/imagen_prueba.png";
 
@@ -26,12 +26,12 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
   }, []);
 
   // 3. handleEnter — definido ANTES del useEffect que lo usa
-  const handleEnter = () => {
+  const handleEnter = useCallback(() => {
     if (!isVisible) return; // evitar doble disparo
     setIsVisible(false);
     document.body.style.overflow = "";
     setTimeout(onEnter, 800);
-  };
+  }, [isVisible, onEnter]);
 
   // 4. Escuchar wheel, teclas y swipe DESPUÉS de definir handleEnter
   useEffect(() => {
@@ -60,6 +60,7 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
 
   return (
