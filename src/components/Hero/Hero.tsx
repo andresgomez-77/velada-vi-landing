@@ -188,18 +188,42 @@ export function Hero() {
         {/* Stats strip */}
         <motion.div
           variants={fadeUp}
-          className="flex flex-wrap items-center justify-center w-full"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            width: "100%",
+            maxWidth: "32rem",
+            margin: "0 auto",
+          }}
         >
           {STATS.map((s) => (
             <div
               key={s.label}
-              className="flex items-center gap-3 px-7 py-3 bg-velada-gold/3 border border-velada-gold/10"
-              style={{ padding: "0.75rem 1.75rem" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "0.75rem 0.5rem",
+                background: "rgba(200,153,42,0.03)",
+                border: "1px solid rgba(200,153,42,0.1)",
+                gap: "0.25rem",
+                textAlign: "center",
+              }}
             >
-              <span className="font-heading text-[18px] font-bold text-velada-gold-light tracking-wide">
+              <span
+                className="font-heading font-bold text-velada-gold-light"
+                style={{ fontSize: "clamp(1rem,4vw,1.25rem)" }}
+              >
                 {s.value}
               </span>
-              <span className="font-ui text-[11px] font-semibold tracking-[2px] uppercase text-white/30">
+              <span
+                className="font-ui font-semibold uppercase text-white/30"
+                style={{
+                  fontSize: "clamp(0.55rem,2vw,0.7rem)",
+                  letterSpacing: "1.5px",
+                }}
+              >
                 {s.label}
               </span>
             </div>

@@ -45,6 +45,18 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("#");
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) setIsMobileOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -64,26 +76,25 @@ export function Navbar() {
           : "bg-gradient-to-b from-velada-black/80 to-transparent backdrop-blur-sm"
       }`}
     >
-      {/* Top accent line — always visible */}
+      {/* Top accent line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-velada-bronze via-velada-gold to-velada-bronze" />
 
-      {/* Bottom separator — only when scrolled */}
+      {/* Bottom separator when scrolled */}
       {isScrolled && (
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-velada-gold/30 to-transparent" />
       )}
 
       {/* Main bar */}
       <div
-        className="flex items-center justify-between h-[68px] px-6 sm:px-10 lg:px-16 w-full"
-        style={{ padding: "0 1rem" }}
+        className="flex items-center justify-between w-full"
+        style={{ height: "68px", padding: "0 1.25rem" }}
       >
-        {/* ── Logo ── */}
+        {/* Logo */}
         <a
           href="#"
           className="group flex items-center gap-3 flex-shrink-0"
           aria-label="La Velada VI"
         >
-          {/* Hexagon-style badge */}
           <div className="relative flex items-center justify-center w-10 h-10 flex-shrink-0">
             <div
               className="absolute inset-0 bg-velada-gold group-hover:bg-velada-gold-bright transition-colors duration-300"
@@ -96,19 +107,32 @@ export function Navbar() {
               VI
             </span>
           </div>
-
           <div className="flex flex-col leading-none gap-0.5">
-            <span className="font-ui text-[9px] font-bold tracking-[4px] uppercase text-velada-gold/60">
+            <span
+              className="font-ui text-[9px] font-bold uppercase text-velada-gold/60"
+              style={{ letterSpacing: "4px" }}
+            >
               Edición Especial
             </span>
-            <span className="font-heading text-[16px] font-bold tracking-[3px] uppercase text-white group-hover:text-velada-gold transition-colors duration-300">
+            <span
+              className="font-heading text-[16px] font-bold uppercase text-white group-hover:text-velada-gold transition-colors duration-300"
+              style={{ letterSpacing: "3px" }}
+            >
               La Velada
             </span>
           </div>
         </a>
 
-        {/* ── Desktop nav — centered ── */}
-        <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
+        {/* Desktop nav links */}
+        <div
+          style={{
+            display: isMobile ? "none" : "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
           {NAV_LINKS.map((link) => {
             const isActive = activeLink === link.href;
             return (
@@ -116,13 +140,13 @@ export function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setActiveLink(link.href)}
-                className={`relative group px-5 py-2 font-ui text-[11px] font-bold tracking-[3px] uppercase transition-all duration-200 ${
+                className={`relative group px-5 py-2 font-ui text-[11px] font-bold uppercase transition-all duration-200 ${
                   isActive
                     ? "text-velada-gold"
                     : "text-white/50 hover:text-white"
                 }`}
+                style={{ letterSpacing: "3px" }}
               >
-                {/* Active indicator */}
                 {isActive && (
                   <motion.span
                     layoutId="nav-active"
@@ -135,7 +159,6 @@ export function Navbar() {
                   />
                 )}
                 <span className="relative z-10">{link.label}</span>
-                {/* Hover underline */}
                 {!isActive && (
                   <span className="absolute bottom-0 left-5 right-5 h-px bg-velada-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                 )}
@@ -144,10 +167,19 @@ export function Navbar() {
           })}
         </div>
 
-        {/* ── Right: socials + CTA ── */}
-        <div className="hidden md:flex items-center gap-1 flex-shrink-0">
-          {/* Social icons with branded colors */}
-          <div className="flex items-center gap-0.5 mr-3">
+        {/* Desktop right: socials + CTA */}
+        <div
+          style={{
+            display: isMobile ? "none" : "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+            flexShrink: 0,
+          }}
+        >
+          <div
+            className="flex items-center"
+            style={{ gap: "2px", marginRight: "0.75rem" }}
+          >
             {SOCIAL_LINKS.map((s) => (
               <a
                 key={s.label}
@@ -161,15 +193,16 @@ export function Navbar() {
               </a>
             ))}
           </div>
-
-          {/* Vertical divider */}
-          <div className="w-px h-5 bg-velada-gold/20 mr-3" />
-
-          {/* CTA button */}
+          <div
+            className="w-px h-5 bg-velada-gold/20"
+            style={{ marginRight: "0.75rem" }}
+          />
           <a
             href="#stream"
-            className="group relative overflow-hidden flex items-center gap-2 px-5 py-2.5 bg-velada-gold text-velada-black font-heading text-[12px] font-bold tracking-[2px] uppercase hover:bg-velada-gold-bright transition-colors duration-200 shadow-[0_0_20px_rgba(200,153,42,0.3)] hover:shadow-[0_0_30px_rgba(200,153,42,0.5)]"
+            className="group relative overflow-hidden flex items-center gap-2 bg-velada-gold text-velada-black font-heading text-[12px] font-bold uppercase hover:bg-velada-gold-bright transition-colors duration-200"
             style={{
+              padding: "0.625rem 1.25rem",
+              letterSpacing: "2px",
               boxShadow: "0 0 20px rgba(200,153,42,0.35)",
             }}
           >
@@ -179,61 +212,62 @@ export function Navbar() {
           </a>
         </div>
 
-        {/* ── Mobile toggle ── */}
-        <button
-          className="md:hidden relative w-10 h-10 flex items-center justify-center text-white hover:text-velada-gold transition-colors flex-shrink-0"
-          onClick={handleMobileToggle}
-          aria-label={isMobileOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={isMobileOpen}
-        >
-          <AnimatePresence mode="wait">
-            {isMobileOpen ? (
-              <motion.span
-                key="x"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                <X className="w-5 h-5" />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="ham"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                <Menu className="w-5 h-5" />
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </button>
+        {/* Mobile hamburger */}
+        {isMobile && (
+          <button
+            className="relative w-10 h-10 flex items-center justify-center text-white hover:text-velada-gold transition-colors flex-shrink-0"
+            onClick={handleMobileToggle}
+            aria-label={isMobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isMobileOpen}
+          >
+            <AnimatePresence mode="wait">
+              {isMobileOpen ? (
+                <motion.span
+                  key="x"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <X className="w-5 h-5" />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="ham"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Menu className="w-5 h-5" />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+        )}
       </div>
 
-      {/* ── Mobile menu ── */}
+      {/* Mobile menu */}
       <AnimatePresence>
-        {isMobileOpen && (
+        {isMobile && isMobileOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden bg-velada-black/98 backdrop-blur-2xl border-t border-velada-gold/15"
+            className="overflow-hidden bg-velada-black/98 backdrop-blur-2xl border-t border-velada-gold/15"
           >
-            {/* Mobile top accent */}
             <div className="h-px bg-gradient-to-r from-transparent via-velada-gold/40 to-transparent" />
-
-            <div className="px-6 py-6">
+            <div style={{ padding: "1.5rem 1.5rem" }}>
               {NAV_LINKS.map((link, i) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.06 }}
-                  className="flex items-center justify-between py-4 border-b border-velada-gold/8 last:border-0 font-ui text-[13px] font-bold tracking-[3px] uppercase text-white/50 hover:text-velada-gold transition-colors group"
+                  className="flex items-center justify-between py-4 border-b border-velada-gold/8 last:border-0 font-ui text-[13px] font-bold uppercase text-white/50 hover:text-velada-gold transition-colors group"
+                  style={{ letterSpacing: "1.5px" }}
                   onClick={handleMobileClose}
                 >
                   <span>{link.label}</span>
@@ -242,8 +276,10 @@ export function Navbar() {
                   </span>
                 </motion.a>
               ))}
-
-              <div className="flex items-center justify-between pt-5 mt-2">
+              <div
+                className="flex items-center justify-between"
+                style={{ paddingTop: "1.25rem", marginTop: "0.5rem" }}
+              >
                 <div className="flex gap-2">
                   {SOCIAL_LINKS.map((s) => (
                     <a
@@ -260,8 +296,10 @@ export function Navbar() {
                 </div>
                 <a
                   href="#stream"
-                  className="flex items-center gap-2 px-5 py-2.5 bg-velada-gold text-velada-black font-heading text-[12px] font-bold tracking-[2px] uppercase"
+                  className="flex items-center gap-2 bg-velada-gold text-velada-black font-heading text-[12px] font-bold uppercase"
                   style={{
+                    padding: "0.625rem 1.25rem",
+                    letterSpacing: "2px",
                     boxShadow: "0 0 16px rgba(200,153,42,0.3)",
                   }}
                   onClick={handleMobileClose}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Swords, MapPin, Trophy } from "lucide-react";
 import { fighterProfiles, type FighterProfile } from "../../data/fighters";
@@ -18,14 +18,13 @@ function FighterAvatar({
     .toUpperCase();
   return (
     <div
-      className="relative flex items-center justify-center rounded-full"
+      className="relative flex items-center justify-center rounded-full flex-shrink-0"
       style={{
         width: size,
         height: size,
-        flexShrink: 0,
         background: `linear-gradient(135deg, ${fighter.accentColor}30, ${fighter.accentColor}10)`,
         border: `2px solid ${fighter.accentColor}60`,
-        boxShadow: `0 0 40px ${fighter.accentColor}40`,
+        boxShadow: `0 0 30px ${fighter.accentColor}35`,
       }}
     >
       <span
@@ -42,7 +41,8 @@ function FighterAvatar({
   );
 }
 
-function FighterCard({
+// ── Desktop card — horizontal expand effect ─────────────────────────────────
+function FighterCardDesktop({
   fighter,
   isActive,
   onClick,
@@ -81,7 +81,6 @@ function FighterCard({
         }}
       />
 
-      {/* Collapsed — vertical name */}
       {!isActive && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span
@@ -97,7 +96,6 @@ function FighterCard({
         </div>
       )}
 
-      {/* Expanded */}
       {isActive && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -157,6 +155,62 @@ function FighterCard({
   );
 }
 
+// ── Mobile card — simple grid card ──────────────────────────────────────────
+function FighterCardMobile({
+  fighter,
+  isActive,
+  onClick,
+}: {
+  fighter: FighterProfile;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      onClick={onClick}
+      className="relative overflow-hidden cursor-pointer rounded-xl"
+      style={{
+        background: `linear-gradient(160deg, ${fighter.accentColor}20 0%, #0b0b12 80%)`,
+        border: `1px solid ${isActive ? fighter.accentColor + "50" : fighter.accentColor + "20"}`,
+        boxShadow: isActive ? `0 0 20px ${fighter.accentColor}30` : "none",
+        padding: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "0.5rem",
+        textAlign: "center",
+        transition: "all 0.3s",
+      }}
+    >
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${fighter.accentColor}, transparent)`,
+          opacity: isActive ? 1 : 0.3,
+        }}
+      />
+      <FighterAvatar fighter={fighter} size={56} />
+      <div>
+        <p className="font-heading font-bold text-white text-sm leading-tight">
+          {fighter.name}
+        </p>
+        <p
+          className="font-ui text-[9px] uppercase tracking-wider mt-0.5"
+          style={{ color: fighter.accentColor, opacity: 0.7 }}
+        >
+          {fighter.nickname}
+        </p>
+      </div>
+      {isActive && (
+        <p className="font-ui text-[9px] text-white/40 uppercase tracking-wider">
+          vs {fighter.rival}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Detail panel ─────────────────────────────────────────────────────────────
 function FighterDetail({
   fighter,
   onClose,
@@ -185,15 +239,12 @@ function FighterDetail({
         }}
       />
 
+      {/* Responsive grid: 1 col on mobile, 2 col on md+ */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "2.5rem",
-          padding: "2.5rem",
-        }}
+        className="grid grid-cols-1 md:grid-cols-2"
+        style={{ gap: "2rem", padding: "1.5rem" }}
       >
-        {/* Left */}
+        {/* Left — Avatar + stats */}
         <div
           style={{
             display: "flex",
@@ -202,8 +253,8 @@ function FighterDetail({
             textAlign: "center",
           }}
         >
-          <FighterAvatar fighter={fighter} size={150} />
-          <div style={{ marginTop: "1.25rem" }}>
+          <FighterAvatar fighter={fighter} size={120} />
+          <div style={{ marginTop: "1rem" }}>
             <span
               className="font-ui text-[10px] font-bold tracking-[4px] uppercase"
               style={{ color: fighter.accentColor }}
@@ -212,11 +263,11 @@ function FighterDetail({
             </span>
             <h2
               className="font-display text-white leading-none mt-1"
-              style={{ fontSize: "2.25rem" }}
+              style={{ fontSize: "clamp(1.75rem,5vw,2.25rem)" }}
             >
               {fighter.name}
             </h2>
-            <div className="flex items-center justify-center gap-2 mt-2">
+            <div className="flex items-center justify-center gap-2 mt-1.5">
               <MapPin className="w-3 h-3 text-white/30" />
               <span className="font-body text-white/40 text-sm">
                 {fighter.origin}
@@ -225,13 +276,8 @@ function FighterDetail({
           </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.625rem",
-              width: "100%",
-              marginTop: "1.25rem",
-            }}
+            className="grid grid-cols-2 gap-2 w-full"
+            style={{ marginTop: "1rem" }}
           >
             {[
               { label: "Estilo", value: fighter.stats.style },
@@ -241,7 +287,7 @@ function FighterDetail({
             ].map((s) => (
               <div
                 key={s.label}
-                className="rounded-xl p-3 text-center"
+                className="rounded-xl p-2.5 text-center"
                 style={{
                   background: `${fighter.accentColor}10`,
                   border: `1px solid ${fighter.accentColor}18`,
@@ -258,9 +304,9 @@ function FighterDetail({
           </div>
 
           <div
-            className="flex items-center gap-3 rounded-xl p-4 w-full"
+            className="flex items-center gap-3 rounded-xl p-3 w-full"
             style={{
-              marginTop: "0.875rem",
+              marginTop: "0.75rem",
               background: `${fighter.accentColor}08`,
               border: `1px solid ${fighter.accentColor}15`,
             }}
@@ -283,18 +329,16 @@ function FighterDetail({
           </div>
         </div>
 
-        {/* Right */}
+        {/* Right — Bio */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            gap: "0.875rem",
           }}
         >
-          <div
-            className="flex items-center gap-2"
-            style={{ marginBottom: "0.875rem" }}
-          >
+          <div className="flex items-center gap-2">
             <Trophy
               className="w-4 h-4"
               style={{ color: fighter.accentColor }}
@@ -303,14 +347,11 @@ function FighterDetail({
               Perfil del luchador
             </span>
           </div>
-          <p
-            className="font-body text-white/65 text-base leading-relaxed"
-            style={{ marginBottom: "1.25rem" }}
-          >
+          <p className="font-body text-white/65 text-sm leading-relaxed">
             {fighter.description}
           </p>
           <div
-            className="rounded-xl p-5"
+            className="rounded-xl p-4"
             style={{
               background: `${fighter.accentColor}08`,
               border: `1px solid ${fighter.accentColor}15`,
@@ -327,16 +368,15 @@ function FighterDetail({
             </p>
           </div>
           <div
-            className="rounded-xl p-4"
+            className="rounded-xl p-3"
             style={{
-              marginTop: "0.875rem",
               background: "rgba(200,153,42,0.05)",
               border: "1px solid rgba(200,153,42,0.12)",
             }}
           >
             <p
-              className="font-ui text-[8px] uppercase tracking-widest"
-              style={{ color: "rgba(200,153,42,0.5)", marginBottom: "0.25rem" }}
+              className="font-ui text-[8px] uppercase tracking-widest mb-1"
+              style={{ color: "rgba(200,153,42,0.5)" }}
             >
               Combate
             </p>
@@ -352,7 +392,7 @@ function FighterDetail({
 
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white transition-colors"
+        className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white transition-colors"
         style={{ background: "rgba(255,255,255,0.05)" }}
         aria-label="Cerrar perfil"
       >
@@ -362,7 +402,15 @@ function FighterDetail({
   );
 }
 
+// ── Main component ────────────────────────────────────────────────────────────
 export function FightersGallery() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [selectedFighter, setSelectedFighter] = useState<FighterProfile | null>(
     null,
@@ -370,10 +418,8 @@ export function FightersGallery() {
 
   const handleCardClick = (fighter: FighterProfile) => {
     if (activeId === fighter.id && selectedFighter?.id === fighter.id) {
-      // already open — close panel
       setSelectedFighter(null);
     } else {
-      // expand + open detail in one click
       setActiveId(fighter.id);
       setSelectedFighter(fighter);
     }
@@ -410,12 +456,13 @@ export function FightersGallery() {
           margin: "0 auto",
         }}
       >
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: "3rem" }}
+          style={{ textAlign: "center", marginBottom: "2.5rem" }}
         >
           <span
             className="section-badge"
@@ -425,59 +472,74 @@ export function FightersGallery() {
           </span>
           <h2
             className="font-display text-white leading-none"
-            style={{ fontSize: "clamp(2.5rem,7vw,5rem)" }}
+            style={{ fontSize: "clamp(2rem,7vw,5rem)" }}
           >
             CONOCE A LOS{" "}
             <span className="text-gold-gradient">COMBATIENTES</span>
           </h2>
           <p
-            className="font-body text-white/40 text-base"
-            style={{ maxWidth: "36rem", margin: "1rem auto 0" }}
+            className="font-body text-white/40 text-sm sm:text-base"
+            style={{ maxWidth: "36rem", margin: "0.75rem auto 0" }}
           >
-            Haz click en un luchador para expandirlo. Vuelve a hacer click para
-            ver su perfil completo.
+            Toca un luchador para ver su perfil completo.
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          style={{
-            display: "flex",
-            gap: "6px",
-            width: "100%",
-            marginBottom: "6px",
-          }}
-        >
-          {row1.map((f) => (
-            <FighterCard
-              key={f.id}
-              fighter={f}
-              isActive={activeId === f.id}
-              onClick={() => handleCardClick(f)}
-            />
-          ))}
-        </motion.div>
+        {/* Mobile grid */}
+        {isMobile && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "0.625rem",
+              width: "100%",
+            }}
+          >
+            {fighterProfiles.map((f) => (
+              <FighterCardMobile
+                key={f.id}
+                fighter={f}
+                isActive={activeId === f.id}
+                onClick={() => handleCardClick(f)}
+              />
+            ))}
+          </div>
+        )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          style={{ display: "flex", gap: "6px", width: "100%" }}
-        >
-          {row2.map((f) => (
-            <FighterCard
-              key={f.id}
-              fighter={f}
-              isActive={activeId === f.id}
-              onClick={() => handleCardClick(f)}
-            />
-          ))}
-        </motion.div>
+        {/* Desktop rows */}
+        {!isMobile && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "6px",
+              width: "100%",
+            }}
+          >
+            <div style={{ display: "flex", gap: "6px", width: "100%" }}>
+              {row1.map((f) => (
+                <FighterCardDesktop
+                  key={f.id}
+                  fighter={f}
+                  isActive={activeId === f.id}
+                  onClick={() => handleCardClick(f)}
+                />
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "6px", width: "100%" }}>
+              {row2.map((f) => (
+                <FighterCardDesktop
+                  key={f.id}
+                  fighter={f}
+                  isActive={activeId === f.id}
+                  onClick={() => handleCardClick(f)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
+        {/* Detail panel */}
         <AnimatePresence>
           {selectedFighter && (
             <FighterDetail
