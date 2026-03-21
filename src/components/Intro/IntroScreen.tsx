@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import heroImage from "../../assets/img/imagen_prueba.png";
 
 interface IntroScreenProps {
   readonly onEnter: () => void;
@@ -9,7 +8,6 @@ interface IntroScreenProps {
 export function IntroScreen({ onEnter }: IntroScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [imageReady, setImageReady] = useState(false);
 
   // 1. Mostrar contenido después de 800ms
   useEffect(() => {
@@ -73,31 +71,31 @@ export function IntroScreen({ onEnter }: IntroScreenProps) {
           className="fixed inset-0 z-50 bg-velada-black overflow-hidden"
           style={{ width: "100vw", height: "100vh" }}
         >
-          {/* Background image */}
-          <div
-            className="absolute inset-0"
-            style={{ width: "100%", height: "100%" }}
-          >
-            <img
-              src={heroImage}
-              alt=""
-              aria-hidden
-              onLoad={() => setImageReady(true)}
+          {/* Background — dark with gold gradients */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-velada-black" />
+            <div
+              className="absolute inset-0"
               style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center top",
-                opacity: imageReady ? 1 : 0,
-                transition: "opacity 0.8s ease",
-                transform: "scale(1.04)",
+                background:
+                  "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,153,42,0.12) 0%, transparent 65%)",
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-velada-black via-velada-black/55 to-velada-black/25" />
-            <div className="absolute inset-0 bg-gradient-to-b from-velada-black/50 via-transparent to-velada-black/30" />
-            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-velada-black to-transparent" />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse 40% 40% at 20% 60%, rgba(160,82,26,0.08) 0%, transparent 60%)",
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse 40% 40% at 80% 60%, rgba(160,82,26,0.08) 0%, transparent 60%)",
+              }}
+            />
+            <div className="absolute inset-0 bg-grid-subtle opacity-30" />
           </div>
 
           {/* Corner decorations */}
