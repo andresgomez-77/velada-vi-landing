@@ -1,73 +1,172 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🥊 La Velada del Año VI — Landing Page
 
-Currently, two official plugins are available:
+### Fan Project · Portfolio · No Oficial
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?style=flat-square&logo=vercel)](https://velada-vi-landing.vercel.app)
+[![CI](https://img.shields.io/github/actions/workflow/status/andresgomez-77/velada-vi-landing/ci.yml?style=flat-square&label=CI)](https://github.com/andresgomez-77/velada-vi-landing/actions)
 
-## React Compiler
+**[🔴 Ver Demo en Vivo](https://velada-vi-landing.vercel.app)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![La Velada VI Landing Page](https://raw.githubusercontent.com/andresgomez-77/velada-vi-landing/main/src/assets/img/imagen_prueba.webp)
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📋 Descripción
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Landing page de fan inspirada en **La Velada del Año VI** de Ibai Llanos. Proyecto desarrollado con fines educativos para practicar y demostrar habilidades en el stack moderno de desarrollo frontend.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+> ⚠️ **Disclaimer:** Este es un proyecto no oficial de portafolio. No está afiliado a Ibai Llanos, su equipo ni al evento La Velada del Año. Creado únicamente con fines educativos y de demostración técnica.
+
+---
+
+## ✨ Features
+
+- 🎬 **Intro animada** con imagen de fondo y efectos de entrada
+- ⏱️ **Countdown** en tiempo real hasta el evento
+- 🥊 **Galería de luchadores** con efecto hover expandible (estilo Avengers)
+- 📋 **Cartelera completa** con todas las peleas y el Main Event destacado
+- 📺 **Stream en vivo** integrado con Twitch, YouTube y TikTok
+- 🎙️ **Equipo de comentaristas** con cards animadas
+- 📱 **100% Responsive** — Mobile First
+- 🌙 **Dark theme** con paleta dorada
+- ♿ **Accesible** — roles ARIA, focus visible, reduced motion
+
+---
+
+## 🛠️ Stack Técnico
+
+| Tecnología    | Versión | Uso         |
+| ------------- | ------- | ----------- |
+| React         | 19      | UI Library  |
+| TypeScript    | 5.9     | Type Safety |
+| Tailwind CSS  | v4      | Estilos     |
+| Framer Motion | 12      | Animaciones |
+| Vite          | 8.0     | Build Tool  |
+| Vitest        | 4       | Testing     |
+| ESLint        | 9       | Linting     |
+
+---
+
+## 🚀 Instalación y Uso
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/andresgomez-77/velada-vi-landing.git
+cd velada-vi-landing
+
+# Instalar dependencias
+npm install
+
+# Iniciar servidor de desarrollo
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧪 Tests y Calidad
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Ejecutar tests
+npm run test
+
+# Tests con UI
+npm run test:ui
+
+# Cobertura de tests
+npm run test:coverage
+
+# Lint
+npm run lint
+
+# Type check
+npx tsc --noEmit
 ```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── components/
+│   ├── Commentators/     # Equipo de comentaristas
+│   ├── Countdown/        # Contador regresivo
+│   ├── Fighters/         # Galería de luchadores
+│   ├── Fights/           # Cartelera de peleas
+│   ├── Footer/           # Pie de página
+│   ├── Hero/             # Sección principal
+│   ├── Intro/            # Pantalla de introducción
+│   ├── Navbar/           # Navegación
+│   ├── Sponsors/         # Patrocinadores
+│   └── Stream/           # Sección de stream
+├── data/
+│   ├── fighters.ts       # Datos de luchadores
+│   └── fights.ts         # Datos de peleas
+├── hooks/
+│   └── useCountdown.ts   # Hook countdown
+└── test/                 # Tests unitarios
+```
+
+---
+
+## 🔄 CI/CD
+
+El proyecto usa **GitHub Actions** con 3 workflows:
+
+- **CI** — ESLint + TypeScript check + Build en cada PR
+- **Security** — Auditoría de dependencias
+- **Release Please** — Releases automáticos con conventional commits
+
+La rama `main` está protegida — todo cambio requiere PR con checks en verde.
+
+---
+
+## 📱 Screenshots
+
+| Desktop               | Mobile          |
+| --------------------- | --------------- |
+| Hero con countdown    | Hero responsive |
+| Galería de luchadores | Grid 2 columnas |
+| Cartelera completa    | Cards adaptadas |
+
+---
+
+## 🧑‍💻 Aprendizajes
+
+- Tailwind v4 y sus diferencias con v3 (nuevo sistema de configuración, clases dinámicas)
+- Framer Motion para animaciones complejas con `AnimatePresence` y `layoutId`
+- Patrones de responsive design con detección JS cuando CSS no es suficiente
+- CI/CD profesional con GitHub Actions y branch protection
+- Deploy automático con Vercel
+
+---
+
+## 📄 Licencia
+
+MIT License — Libre para uso educativo.
+
+**Este proyecto no tiene afiliación oficial con Ibai Llanos, La Velada del Año ni ninguna de las marcas mencionadas.**
+
+---
+
+<div align="center">
+
+Desarrollado con ❤️ por **[Andrés Gómez](https://github.com/andresgomez-77)**
+
+⭐ Si te gustó el proyecto, dale una estrella en GitHub
+
+</div>
