@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Twitch,
@@ -61,6 +62,16 @@ const NAV_LINKS = [
 ];
 
 export function Footer() {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <footer className="relative bg-velada-dark border-t border-velada-gold/10 overflow-hidden w-full flex flex-col items-center">
       {/* Top gold line */}
@@ -81,11 +92,21 @@ export function Footer() {
           <p className="text-center font-ui text-velada-gold/30 text-[10px] tracking-[0.4em] uppercase mb-8">
             Patrocinadores oficiales
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 md:gap-16">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "repeat(2, 1fr)"
+                : "repeat(4, 1fr)",
+              gap: "1.5rem",
+              width: "100%",
+            }}
+          >
             {SPONSORS.map((sponsor) => (
               <div
                 key={sponsor.name}
                 className="group flex flex-col items-center gap-1 cursor-default"
+                style={{ textAlign: "center" }}
               >
                 <span className="font-heading font-bold text-white/20 hover:text-velada-gold/50 transition-colors duration-300 text-xl sm:text-2xl tracking-wider">
                   {sponsor.name}
@@ -101,9 +122,25 @@ export function Footer() {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-velada-gold/15 to-transparent mb-12" />
 
         {/* Main footer grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-8 mb-12">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(3, 1fr)",
+            gap: isMobile ? "1.5rem" : "2rem",
+            marginBottom: "3rem",
+            alignItems: "start",
+          }}
+        >
           {/* Brand column */}
-          <div className="flex flex-col items-center sm:items-start gap-4">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1rem",
+              gridColumn: isMobile ? "1 / -1" : "auto",
+            }}
+          >
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 border border-velada-gold/40 rounded flex items-center justify-center">
                 <span className="font-display text-velada-gold text-lg leading-none">
@@ -137,7 +174,14 @@ export function Footer() {
           </div>
 
           {/* Social links */}
-          <div className="flex flex-col items-center sm:items-end gap-3">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: isMobile ? "center" : "flex-end",
+              gap: "0.75rem",
+            }}
+          >
             <p className="font-ui font-bold text-velada-gold/50 text-[10px] tracking-[0.3em] uppercase mb-1">
               Síguenos
             </p>
@@ -162,7 +206,16 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="w-full h-px bg-gradient-to-r from-transparent via-velada-gold/10 to-transparent mb-8" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "0.5rem",
+            textAlign: isMobile ? "center" : "left",
+          }}
+        >
           <p className="font-body text-white/25 text-xs">
             © 2026 La Velada del Año. Todos los derechos reservados.
           </p>

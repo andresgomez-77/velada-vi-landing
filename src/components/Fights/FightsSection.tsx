@@ -102,8 +102,7 @@ export function FightsSection() {
           <button
             className="group relative overflow-hidden px-10 py-4 border border-velada-gold/20 hover:border-velada-gold/50 text-velada-gold/60 hover:text-velada-gold font-heading font-bold text-sm tracking-widest transition-all duration-300"
             style={{
-              boxShadow: "0 0 30px rgba(200,153,42,0.4)",
-              padding: "0.1rem 0.2rem",
+              padding: "0.875rem 2.5rem",
             }}
             type="button"
           >
