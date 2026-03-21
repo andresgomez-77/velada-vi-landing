@@ -37,9 +37,9 @@ const PLATFORMS: PlatformConfig[] = [
 ];
 
 const EMBEDS: Partial<Record<Platform, string>> = {
-  twitch: "https://player.twitch.tv/?channel=ibai&parent=localhost&muted=true",
-  youtube:
-    "https://www.youtube.com/embed/live_stream?channel=UCv5K8yPcdS1tS4Dqcls1hvQ",
+  twitch:
+    "https://player.twitch.tv/?channel=ibai&parent=velada-vi-landing.vercel.app",
+  youtube: "https://www.youtube.com/watch?v=h-jWhM3ne5U",
 };
 
 export function StreamSection() {
@@ -175,7 +175,7 @@ export function StreamSection() {
                     </p>
                   </div>
                   <a
-                    href="https://www.tiktok.com/@ibaillanos/live"
+                    href="https://www.tiktok.com/@ibaillanos/photo/7615380400470297878"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 px-8 py-3.5 font-heading font-bold text-black text-sm tracking-widest rounded-xl hover:scale-105 transition-transform"
