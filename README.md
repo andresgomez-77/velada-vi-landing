@@ -2,6 +2,8 @@
 
 # 🥊 La Velada del Año VI — Landing Page
 
+## Landing page moderna enfocada en experiencia de usuario, animaciones avanzadas y rendimiento.
+
 ### Fan Project · Portfolio · No Oficial
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
@@ -21,7 +23,7 @@
 
 ## 📋 Descripción
 
-Landing page de fan inspirada en **La Velada del Año VI** de Ibai Llanos. Proyecto desarrollado con fines educativos para practicar y demostrar habilidades en el stack moderno de desarrollo frontend.
+Proyecto desarrollado como práctica avanzada de frontend, enfocado en experiencia de usuario, animaciones complejas y optimización de rendimiento.
 
 > ⚠️ **Disclaimer:** Este es un proyecto no oficial de portafolio. No está afiliado a Ibai Llanos, su equipo ni al evento La Velada del Año. Creado únicamente con fines educativos y de demostración técnica.
 
@@ -155,6 +157,32 @@ La rama `main` está protegida — todo cambio requiere PR con checks en verde.
 
 ---
 
+## 🧠 Decisiones Técnicas
+
+- Implementación de animaciones complejas utilizando Framer Motion (`layoutId`, `AnimatePresence`) para transiciones fluidas entre componentes.
+- Manejo de estado local optimizado para evitar re-renderizados innecesarios en componentes dinámicos como el countdown.
+- Uso de hooks personalizados (`useCountdown`) para encapsular lógica reutilizable.
+- Estructura modular de componentes para escalabilidad y mantenimiento.
+- Estrategias de responsive design combinando Tailwind CSS con lógica en JavaScript cuando CSS no es suficiente.
+
+---
+
+## ⚡ Optimización
+
+- Lazy loading de componentes para mejorar tiempo de carga inicial
+- Optimización de imágenes (formato `.webp`)
+- Minimización de re-renderizados con separación de componentes
+- Build optimizado con Vite
+
+---
+
+## 🚧 Retos Técnicos
+
+- Manejo de animaciones complejas sin afectar rendimiento
+- Sincronización del countdown en tiempo real
+- Adaptación de layout dinámico en múltiples dispositivos
+- Integración de múltiples plataformas de streaming (Twitch, YouTube, TikTok)
+---
 ## 📄 Licencia
 
 MIT License — Libre para uso educativo.
